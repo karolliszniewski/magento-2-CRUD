@@ -1,27 +1,28 @@
-File structure:
+File structure 
+✅ - Required Files for CRUD Operations
 
 ```bash
-httpdocs/app/code/LandingPage
+app/code/LandingPage
 └── Form
     ├── Api
     │   ├── Data
-    │   │   └── FormDataInterface.php
-    │   └── FormDataRepositoryInterface.php
+    │   │   └── FormDataInterface.php ✅
+    │   └── FormDataRepositoryInterface.php ✅
     ├── Block
     │   └── Index.php
     ├── Controller
     │   └── Index
     │       ├── Index.php
-    │       └── Post.php
+    │       └── Post.php ✅
     ├── Helper
-    │   └── Data.php
+    │   └── Data.php ✅
     ├── Model
-    │   ├── FormData.php
-    │   ├── FormDataRepository.php
+    │   ├── FormData.php ✅
+    │   ├── FormDataRepository.php ✅
     │   └── ResourceModel
-    │       ├── FormData.php
+    │       ├── FormData.php ✅
     │       └── FormData
-    │           └── Collection.php
+    │           └── Collection.php ✅
     ├── etc
     │   ├── adminhtml
     │   │   └── system.xml
@@ -39,7 +40,7 @@ httpdocs/app/code/LandingPage
                 ├── content
                 │   └── content.phtml
                 ├── form
-                │   └── form.phtml
+                │   └── form.phtml ✅
                 └── no-form
                     ├── disabled.phtml
                     └── session.phtml
