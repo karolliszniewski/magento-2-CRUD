@@ -539,6 +539,13 @@ Content: 'app/code/LandingPage/Form/view/frontend/templates/form/form.phtml'
 </div>
 ```
 
+Summary:
+- '/Api/Data/FormDataInterface.php' - Defines the interface for FormData.
+- '/Api/FormDataRepositoryInterface.php' - Defines the interface for the FormDataRepository.
+- '/Model/FormData.php' - Implements FormDataInterface and IdentityInterface (cache identity is used in getIdentities).
+- '/Controller/Index/Post.php' - A dedicated file for handling POST requests in the controller.
+
+
 
 
 
