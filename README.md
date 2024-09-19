@@ -459,6 +459,87 @@ class FormData extends AbstractDb
 ```
 
 
+Content: 'app/code/LandingPage/Form/Model/ResourceModel/FormData/Collection.php'
+
+```php
+<?php
+namespace LandingPage\Form\Model\ResourceModel\FormData;
+
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use LandingPage\Form\Model\FormData;
+use LandingPage\Form\Model\ResourceModel\FormData as FormDataResource;
+
+class Collection extends AbstractCollection{
+    protected function _construct(){
+        $this->_int(FormData::class,FormDataResource::class);
+    }
+}
+```
+
+
+Content 'app/code/LandingPage/Form/etc/di.xml'
+
+```xml
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="LandingPage\Form\Api\FormDataRepositoryInterface" type="LandingPage\Form\Model\FormDataRepository" />
+    <preference for="LandingPage\Form\Api\FormDataInterface" type="LandingPage\Form\Model\FormData" />
+    <preference for="LandingPage\Form\Api\Data\FormDataInterface" type="LandingPage\Form\Model\FormData" />
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="LandingPage\Form\Api\Data\FormDataInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">landingpage_form</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>
+```
+
+Content: 'app/code/LandingPage/Form/view/frontend/templates/form/form.phtml'
+
+
+```phtml
+<div style="width:100%;display:flex;justify-content:center;align-items:center;" class="account_container-inner">
+    <form style="width:50%;" action="<?= $block->getUrl('landingpage/index/post') ?>" class="form" method="post" id="user-info-form">
+        <?= $block->getBlockHtml('formkey') ?>
+        <fieldset class="fieldset">
+            <div class="field">
+                <label class="label label--required" for="name"><span><?= __("Name")?></span></label>
+                <input name="name" class="input" required id="name" type="text" title="name" value="<?=$block->getCustomerName()?>" disabled require>
+            </div>      
+             
+            <div class="field">
+            <label class="label label--required" for="username"><span><?= __("Email")?></span></label>
+                <input name="email" class="input" required id="email" type="email" title="Email" value="<?=$block->getCustomerEmail()?>" disabled>
+            </div>
+            <label class="label" for="username"><span><?= __("Comment")?></span></label>
+            <div class="field">
+            
+                <textarea name="comment" class="input" id="comment" title="Comment" > </textarea>
+            </div>
+            <!-- Hidden fields to send username and email -->
+            <input type="hidden" name="name" value="<?=$block->getCustomerName()?>">
+            <input type="hidden" name="email" value="<?=$block->getCustomerEmail()?>">
+
+            <div class="actions">
+                <button type="button" class="action-primary" name="add-to-cart">
+                    <span><?= __("Add to Cart") ?></span>    
+                </button>
+                <button class="action-secondary" type="submit">
+                    <span><?= __("Read More") ?></span>
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+```
+
+
 
 
 
