@@ -540,10 +540,13 @@ Content: 'app/code/LandingPage/Form/view/frontend/templates/form/form.phtml'
 ```
 
 Summary:
-- '/Api/Data/FormDataInterface.php' - Defines the interface for FormData.
-- '/Api/FormDataRepositoryInterface.php' - Defines the interface for the FormDataRepository.
-- '/Model/FormData.php' - Implements FormDataInterface and IdentityInterface (cache identity is used in getIdentities).
-- '/Controller/Index/Post.php' - A dedicated file for handling POST requests in the controller.
+### Summary:
+
+- <span style="color:green;">'/Api/Data/FormDataInterface.php'</span> - Defines the interface for FormData.
+- <span style="color:green;">'/Api/FormDataRepositoryInterface.php'</span> - Defines the interface for the FormDataRepository.
+- <span style="color:green;">'/Model/FormData.php'</span> - Implements FormDataInterface and IdentityInterface (cache identity is used in getIdentities).
+- <span style="color:green;">'/Controller/Index/Post.php'</span> - A dedicated file for handling POST requests in the controller.
+- <span style="color:green;">'/Model/FormData.php'</span> - Implements FormDataInterface also for caching IdentityInterface, extends AbstractModel.
 
 
 
