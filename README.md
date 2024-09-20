@@ -15,7 +15,7 @@ app/code/LandingPage
     │       ├── Index.php
     │       └── Post.php ✅
     ├── Helper
-    │   └── Data.php ✅
+    │   └── Data.php (isModuleEnabled())
     ├── Model
     │   ├── FormData.php ✅
     │   ├── FormDataRepository.php ✅
