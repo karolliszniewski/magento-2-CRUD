@@ -544,7 +544,7 @@ Content: 'app/code/LandingPage/Form/view/frontend/templates/form/form.phtml'
 AbstractModel - Interact with database.
 IdentityInterface - Cache tag
 
-
+What is this doing - replace standard magento crud to EntityManager and implements this by using interfaces 
 
 
 Summary:
@@ -553,8 +553,8 @@ Summary:
 - '/Model/FormData.php' - Implements FormDataInterface and IdentityInterface (cache identity is used in getIdentities).
 - '/Controller/Index/Post.php' - A dedicated file for handling POST requests in the controller.
 - '/Model/FormData.php' - implements FormDataInterface and IdentityInterface , extends AbstractMode.
-- '/Model/ResourceModel/FormData.php'
-- '/Model/FormDataRepository.php' -
+- '/Model/ResourceModel/FormData.php' - 
+- '/Model/FormDataRepository.php' - 
 
 ```bash
 app/code/LandingPage/Form/Api/FormDataRepositoryInterface.php
@@ -571,6 +571,29 @@ app/code/LandingPage/Form/Api/Data/FormDataInterface.php <----------------------
 app/code/LandingPage/Form/Model/ResourceModel/FormData.php (Database Operations: save, load, delete)
 
 ```
+
+```bash
+app/code/LandingPage
+└── Form
+    ├── Api
+    │   ├── Data
+    │   │   └── FormDataInterface.php 🧩
+    │   └── FormDataRepositoryInterface.php 🧩
+    ├── Controller
+    │   └── Index
+    │       └── Post.php ✅
+    ├── Model
+    │   ├── FormData.php ✅
+    │   ├── FormDataRepository.php 🗂️
+    │   └── ResourceModel
+    │       ├── FormData.php 🗂️
+    │       └── FormData
+    │           └── Collection.php 🗂️  (send Model\FormData and ResourceModel\FormData to AbstractCollection) typo but is working ❌
+    ├── etc
+    │   ├── di.xml 🧰 (Maps interfaces to their corresponding classes. It also defines the database table structure, specifying the table name and primary key column. )
+```
+
+
 
 
 
