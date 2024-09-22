@@ -361,14 +361,17 @@ use LandingPage\Form\Api\FormDataRepositoryInterface;
 use LandingPage\Form\Api\Data\FormDataInterface;
 use LandingPage\Form\Model\ResourceModel\FormData as FormDataResource;
 use Magento\Framework\Exception\CouldNotSaveException;
+use LandingPage\Form\Api\Data\FormDataInterfaceFactory; // Dodaj import
 
 class FormDataRepository implements FormDataRepositoryInterface
 {
     protected $resource;
+    protected $formDataFactory; // Dodaj właściwość dla fabryki
 
-    public function __construct(FormDataResource $resource)
+    public function __construct(FormDataResource $resource, FormDataInterfaceFactory $formDataFactory) // Dodaj fabrykę jako argument
     {
         $this->resource = $resource;
+        $this->formDataFactory = $formDataFactory; // Przypisz fabrykę do właściwości
     }
 
     public function save(FormDataInterface $formData)
@@ -383,7 +386,7 @@ class FormDataRepository implements FormDataRepositoryInterface
 
     public function getById($id)
     {
-        $formData = $this->formDataFactory->create();
+        $formData = $this->formDataFactory->create(); // Użyj fabryki
         $this->resource->load($formData, $id);
         return $formData;
     }
