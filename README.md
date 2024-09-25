@@ -12,7 +12,7 @@ app/code/LandingPage
     │   └── Index.php
     ├── Controller
     │   └── Index
-    │       ├── Index.php
+    │       ├── Index.php 💾
     │       └── Post.php ✅
     ├── Helper
     │   └── Data.php (isModuleEnabled())
@@ -25,17 +25,17 @@ app/code/LandingPage
     │           └── Collection.php ✅
     ├── etc
     │   ├── adminhtml
-    │   │   └── system.xml
-    │   ├── db_schema.xml
+    │   │   └── system.xml 💾
+    │   ├── db_schema.xml 💾
     │   ├── di.xml ✅
     │   ├── frontend
-    │   │   └── routes.xml
-    │   └── module.xml
-    ├── registration.php
+    │   │   └── routes.xml 💾
+    │   └── module.xml 💾
+    ├── registration.php 💾
     └── view
         └── frontend
             ├── layout
-            │   └── landingpage_index_index.xml
+            │   └── landingpage_index_index.xml 💾
             └── templates
                 ├── content
                 │   └── content.phtml
@@ -595,6 +595,161 @@ app/code/LandingPage
     ├── etc
     │   ├── di.xml 🧰 (Maps interfaces to their corresponding classes. It also defines the database table structure, specifying the table name and primary key column. )
 ```
+
+
+
+rest of the files:
+
+
+'app/code/LandingPage/Form/Controller/Index/Index.php'
+
+```php
+<?php
+namespace LandingPage\Form\Controller\Index;
+
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+
+class Index extends Action{
+    protected $_pageFactory;
+
+    public function __construct(Context $context, 
+    PageFactory $pageFactory){
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($context);
+    }
+
+    public function execute(){
+        return $this->_pageFactory->create();
+    }
+}
+```
+
+
+file 'app/code/LandingPage/Form/Helper/Data.php'
+
+```php
+<?php
+namespace LandingPage\Form\Helper;
+
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\ScopeInterface;
+
+class Data extends AbstractHelper
+{
+    const XML_PATH_MODULE_ENABLED = 'landingpage_form/general/enable_module';
+
+    protected $scopeConfig;
+
+    public function __construct(
+        Context $context,
+        ScopeConfigInterface $scopeConfig
+    ) {
+        parent::__construct($context);
+        $this->scopeConfig = $scopeConfig;
+    }
+
+    /**
+     * Check if the module is enabled
+     *
+     * @return bool
+     */
+    public function isModuleEnabled()
+    {
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_MODULE_ENABLED,ScopeInterface::SCOPE_STORE);
+    }
+}
+```
+
+file: 'app/code/LandingPage/Form/etc/adminhtml/system.xml'
+```xml
+<?xml version="1.0"?>
+<!-- app/code/LandingPage/Form/etc/adminhtml/system.xml -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <section id="landingpage_form" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>LandingPage Form Configuration</label>
+            <tab>general</tab>
+            <resource>LandingPage_Form::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable_module" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Module</label>
+                    <comment>Choose whether to enable or disable the module.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+     
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+```
+
+file 'app/code/LandingPage/Form/etc/db_schema.xml'
+
+```xml
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="landingpage_form" resource="default" engine="innodb" comment="Landing Page Form Table">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="Form ID"/>
+        <column xsi:type="int" name="customer_id" nullable="false" comment="Customer ID"/>
+        <column xsi:type="varchar" name="comment" nullable="true" length="255" comment="Comment"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+
+</schema>
+```
+
+
+file 'app/code/LandingPage/Form/etc/frontend/routes.xml'
+
+```xml
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="landingpage" frontName="landingpage">
+            <module name="LandingPage_Form"/>
+        </route>
+    </router>
+</config>
+```
+
+
+file 'app/code/LandingPage/Form/etc/module.xml'
+
+```xml
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="LandingPage_Form" setup_version="1.0.0"/>
+</config>
+```
+
+
+file: 'app/code/LandingPage/Form/registration.php'
+
+```php
+<?php
+
+use Magento\Framework\Component\ComponentRegistrar;
+
+ComponentRegistrar::register(
+    ComponentRegistrar::MODULE,
+    
+     // The name of the module we're registering
+    'LandingPage_Form',
+    __DIR__
+);
+
+
+```
+
 
 
 
