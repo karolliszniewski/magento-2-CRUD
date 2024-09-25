@@ -750,6 +750,76 @@ ComponentRegistrar::register(
 
 ```
 
+file 'app/code/LandingPage/Form/view/frontend/layout/landingpage_index_index.xml'
+
+```xml
+<?php
+
+use Magento\Framework\Component\ComponentRegistrar;
+
+ComponentRegistrar::register(
+    ComponentRegistrar::MODULE,
+    
+     // The name of the module we're registering
+    'LandingPage_Form',
+    __DIR__
+);
+```
+
+file 'app/code/LandingPage/Form/view/frontend/templates/content/content.phtml'
+
+```phtml
+<!-- app/code/LandingPage/Form/view/frontend/templates/content.phtml -->
+
+<?php
+/** @var LandingPage\Form\Block\Index $block */
+
+?>
+<div class="landing-page-content">
+    <?php   if($block->isModuleEnabled() && $block->isEnglishStore()):  ?>
+        <?php if($block->isCustomerLoggerIn()): ?>
+            <?= $block->getChildHtml('form_block_child_form'); ?>
+        <?php else: ?>
+            <?= $block->getChildHtml('form_block_child_session'); ?>
+        <?php endif; ?>
+
+
+
+    <?php else: ?> 
+        <?= $block->getChildHtml('form_block_child_disabled'); ?>   
+    <?php endif; ?>
+</div>
+```
+
+file: 'app/code/LandingPage/Form/view/frontend/templates/no-form/disabled.phtml'
+
+```phtml
+
+<!-- app/code/LandingPage/Form/view/frontend/templates/guest.phtml -->
+
+<?php
+/** @var LandingPage\Form\Block\Index $block */
+
+?>
+
+<div  style="display:flex;justify-content:center;align-items:center;"class="product-hero__content" x-data="{ seeMore: false }">
+
+    <h2 class="product-hero__title">
+        <!-- Add Product Name -->
+        <?= __("The module is disabled or not supported on this store.") ?>      </h2>
+
+```
+
+file 'app/code/LandingPage/Form/view/frontend/templates/no-form/session.phtml'
+
+```phtml
+<a style="display:flex;justify-content:center;align-items:center;" href="<?php echo $block->getLoginUrl(); ?>" >
+                <button style="width:50%;" type="form-actions-submit" class="action-primary" name="send">
+                        <span><?php echo __('Please login'); ?></span>
+                </button>
+            </a>
+```
+
 
 
 
